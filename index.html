@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Разница чисел</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a style="color:red">ВАЖНО! инструмент корректно работает когда в арифметической прогрессии количество парных<br>
+        и непарных равно и известно количество парных и непарных</a>
+        <h1>Анализ чисел</h1>
+        <input type="text" id="numbers" placeholder="Введите прогрессию через пробел" style="width: 38%; max-width: 400px;">
+        <button onclick="calculate()">Вычислить</button>
+        <br>
+        <a>формула для расчета: (Sпарных - Sнепарных)/(количество парных)</a>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            let input = document.getElementById("numbers").value.trim().replace(/\s+/g, ' ');
+            let numbers = input.split(" ").map(Number).filter(n => !isNaN(n));
+    
+            let evenNumbers = numbers.filter(n => n % 2 === 0);
+            let oddNumbers = numbers.filter(n => n % 2 !== 0);
+    
+            let sumEven = evenNumbers.reduce((a, b) => a + b, 0);
+            let sumOdd = oddNumbers.reduce((a, b) => a + b, 0);
+    
+            let countEven = evenNumbers.length;
+            let countOdd = oddNumbers.length;
+    
+            if (countEven === 0) {
+                document.getElementById("result").innerHTML = "Ошибка: нет четных чисел для расчета.";
+                return;
+            }
+    
+            let resultText = `Сумма четных чисел: ${sumEven}, Сумма нечетных чисел: ${sumOdd}<br>
+                              Количество четных чисел: ${countEven}<br>
+                              Количество нечетных чисел: ${countOdd}<br>
+                              Разница: ${(sumEven - sumOdd) / countEven}`;
+    
+            document.getElementById("result").innerHTML = resultText;
+        }
+    </script>
+    
+</body>
+</html>
